@@ -9,7 +9,7 @@ Python >= 3.6 is required.
 
 ```
 After you fork this repository.
-$ git pull https://github.com/`your user name`/AtCoderRatingGraph.git
+$ git clone https://github.com/`your user name`/AtCoderRatingGraph.git
 ```
 
 Or you can simply clone this repository, too.
