@@ -1,3 +1,5 @@
+I am considering implementing a web version.
+
 # AtCoder Rating Graph
 Compare AtCoder rating graph with others.
 
