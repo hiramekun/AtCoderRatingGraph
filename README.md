@@ -3,7 +3,7 @@ I am considering implementing a web version.
 # AtCoder Rating Graph
 Compare AtCoder rating graph with others.
 
-![image](https://user-images.githubusercontent.com/20180425/55277832-b8d10400-5347-11e9-9da6-e45a22c9f7a7.png)
+![image](https://user-images.githubusercontent.com/20180425/59570801-980f8380-90d8-11e9-85a3-457646c4f2fb.png)
 
 
 
