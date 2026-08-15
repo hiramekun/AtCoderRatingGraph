@@ -1,0 +1,24 @@
+version: 2
+updates:
+  # ワークフローはコミットハッシュで固定しているため、更新は Dependabot に任せる
+  # （ハッシュと隣のバージョンコメントの両方が書き換えられる）。
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: ci
+
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    # minor / patch はまとめて 1 つの PR にし、major だけ個別に上げる。
+    groups:
+      npm-minor-and-patch:
+        patterns:
+          - '*'
+        update-types:
+          - minor
+          - patch
