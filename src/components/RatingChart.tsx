@@ -127,8 +127,10 @@ export function RatingChart({ histories, range }: Props) {
               name={history.user}
               stroke={seriesColor(index)}
               strokeWidth={2}
-              dot={{ r: 3 }}
-              activeDot={{ r: 5 }}
+              legendType="plainline"
+              // 既定のマーカーは中が白抜きになるため、線と同じ色で塗りつぶす。
+              dot={{ r: 3, fill: seriesColor(index), stroke: seriesColor(index) }}
+              activeDot={{ r: 5, fill: seriesColor(index), stroke: '#ffffff', strokeWidth: 2 }}
               connectNulls
               isAnimationActive={false}
             />
