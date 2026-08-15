@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   CartesianGrid,
   Legend,
@@ -77,8 +77,38 @@ function ChartTooltip({
   );
 }
 
+/**
+ * 点が横にどれだけ間隔を取れるかからマーカーの大きさを決める。
+ * 詰まっているのに大きな点を打つと 1 つの塊に見えてしまうため、間隔が狭いときは小さく、
+ * ほとんど間隔が無いときはマーカー自体を描かない。
+ */
+function dotConfig(chartWidth: number, densestSeriesPoints: number, color: string) {
+  const spacing = chartWidth > 0 && densestSeriesPoints > 1 ? chartWidth / densestSeriesPoints : 12;
+  if (spacing < 2.5) return false as const;
+  const radius = Math.min(4, Math.max(1.5, spacing * 0.45));
+  return { r: radius, fill: color, stroke: '#ffffff', strokeWidth: radius >= 3 ? 1.25 : 0.75 };
+}
+
 export function RatingChart({ histories, range }: Props) {
   const rows = useMemo(() => buildRows(histories, range), [histories, range]);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [chartWidth, setChartWidth] = useState(0);
+
+  useEffect(() => {
+    const element = containerRef.current;
+    if (!element) return;
+    const observer = new ResizeObserver(([entry]) => setChartWidth(entry.contentRect.width));
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  // 最も点数の多い系列を基準に、マーカーの詰まり具合を判断する。
+  const densestSeriesPoints = useMemo(() => {
+    const counts = histories.map(
+      (history) => rows.filter((row) => typeof row[history.user] === 'number').length,
+    );
+    return counts.length > 0 ? Math.max(...counts) : 0;
+  }, [rows, histories]);
 
   const [yMin, yMax] = useMemo(() => {
     const ratings = rows.flatMap((row) =>
@@ -93,7 +123,7 @@ export function RatingChart({ histories, range }: Props) {
   }
 
   return (
-    <div className="chart">
+    <div className="chart" ref={containerRef}>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={rows} margin={{ top: 16, right: 24, bottom: 8, left: 0 }}>
           {RATING_BANDS.filter((band) => band.max > yMin && band.min < yMax).map((band) => (
@@ -128,8 +158,8 @@ export function RatingChart({ histories, range }: Props) {
               stroke={seriesColor(index)}
               strokeWidth={2}
               legendType="plainline"
-              // 既定のマーカーは中が白抜きになるため、線と同じ色で塗りつぶす。
-              dot={{ r: 3, fill: seriesColor(index), stroke: seriesColor(index) }}
+              // マーカーは線と同じ色で塗りつぶしつつ、点が密集しても粒が分かれて見えるよう白い縁を付ける。
+              dot={dotConfig(chartWidth, densestSeriesPoints, seriesColor(index))}
               activeDot={{ r: 5, fill: seriesColor(index), stroke: '#ffffff', strokeWidth: 2 }}
               connectNulls
               isAnimationActive={false}
