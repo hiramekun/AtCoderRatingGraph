@@ -1,0 +1,307 @@
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --text: #1c1f23;
+  --muted: #5c6570;
+  --border: #d7dbe0;
+  --accent: #2563eb;
+  --accent-text: #ffffff;
+  --danger: #b3261e;
+  --danger-bg: #fdeceb;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family:
+    system-ui,
+    -apple-system,
+    'Hiragino Sans',
+    'Noto Sans JP',
+    sans-serif;
+  line-height: 1.6;
+}
+
+.page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 32px 20px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  margin: 0;
+  font-size: 28px;
+  letter-spacing: 0.01em;
+}
+
+.lead,
+.empty {
+  margin: 0;
+  color: var(--muted);
+}
+
+.empty {
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  padding: 32px 20px;
+  text-align: center;
+}
+
+.section-title {
+  margin: 0 0 12px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* ---- フォーム ---- */
+
+.form {
+  margin: 0;
+}
+
+.fieldset {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px 20px;
+  margin: 0;
+}
+
+.legend {
+  padding: 0 6px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.user-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.user-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.text-input {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 12px;
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.text-input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.primary-button,
+.secondary-button,
+.icon-button,
+.chip {
+  font-family: inherit;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.primary-button {
+  margin-left: auto;
+  padding: 9px 24px;
+  font-weight: 600;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+
+.secondary-button {
+  padding: 9px 16px;
+}
+
+.icon-button {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  color: var(--muted);
+}
+
+.primary-button:disabled,
+.secondary-button:disabled,
+.icon-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.primary-button:not(:disabled):hover,
+.secondary-button:not(:disabled):hover,
+.icon-button:not(:disabled):hover,
+.chip:hover {
+  filter: brightness(0.96);
+}
+
+/* ---- 期間フィルタ ---- */
+
+.period {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+
+.period-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-end;
+}
+
+.period-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.period-field .text-input {
+  flex: none;
+}
+
+.preset-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.chip {
+  padding: 6px 14px;
+}
+
+.chip-active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+
+/* ---- グラフ ---- */
+
+.chart {
+  height: 520px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 12px 4px;
+}
+
+.tooltip {
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.tooltip-date {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.tooltip-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tooltip-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex: none;
+}
+
+.tooltip-value {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+/* ---- エラー / フッター ---- */
+
+.errors {
+  margin: 0;
+  padding: 12px 20px 12px 36px;
+  list-style: disc;
+  background: var(--danger-bg);
+  border: 1px solid var(--danger);
+  border-radius: 12px;
+  color: var(--danger);
+  font-size: 14px;
+}
+
+.footer {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.footer p {
+  margin: 2px 0;
+}
+
+.footer a,
+.lead a {
+  color: var(--accent);
+}
+
+@media (max-width: 640px) {
+  .chart {
+    height: 400px;
+  }
+
+  .primary-button,
+  .preset-buttons {
+    margin-left: 0;
+  }
+}
