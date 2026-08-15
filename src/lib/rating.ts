@@ -1,6 +1,7 @@
 /**
  * AtCoder のレート帯（色）定義。
- * 元の Jupyter Notebook (compare_rating.ipynb) の Color / get_rate_range / get_color_code と同じ値。
+ * 色は AtCoder 公式のレーティンググラフと同じ（各レート色を不透明度 0.3 で白に重ねた値）。
+ * 例: 緑 rgb(0,128,0) * 0.3 + 白 * 0.7 = #B2D9B2
  */
 export type RatingBand = {
   name: string;
@@ -23,7 +24,11 @@ export const RATING_BANDS: readonly RatingBand[] = [
   { name: 'red', min: 2800, max: 4000, color: '#FFB2B2' },
 ] as const;
 
-/** 各ユーザーの折れ線に割り当てる色。 */
+/**
+ * 各ユーザーの折れ線に割り当てる色。
+ * 公式グラフは単一ユーザーなので線が灰色だが、ここでは複数ユーザーを見分ける必要があるため、
+ * 淡いレート帯の上でも沈まないよう、彩度と暗さのある色だけを選んでいる。
+ */
 export const SERIES_COLORS: readonly string[] = [
   '#1f77b4',
   '#d62728',
@@ -32,9 +37,9 @@ export const SERIES_COLORS: readonly string[] = [
   '#9467bd',
   '#8c564b',
   '#e377c2',
-  '#17becf',
-  '#7f7f7f',
-  '#bcbd22',
+  '#0e7c86',
+  '#4d4d4d',
+  '#8c8c00',
 ];
 
 export function seriesColor(index: number): string {

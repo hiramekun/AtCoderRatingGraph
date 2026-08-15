@@ -15,7 +15,8 @@
 ## 技術構成
 
 - TypeScript / React 19 / Next.js 16 (App Router, `output: 'export'` による静的書き出し)
-- グラフ描画: [Recharts](https://recharts.org/)
+- グラフ描画: [Recharts](https://recharts.org/)。レート帯の背景色・目盛り・罫線は AtCoder 公式のレーティンググラフに合わせ、
+  折れ線とマーカーだけをユーザーごとに色分けしています。
 - データ取得: AtCoder の `/users/<user>/history/json`。atcoder.jp は CORS ヘッダを返さずブラウザから直接取得できないため、
   [AtCoder Problems](https://kenkoooo.com/atcoder/) が公開しているプロキシ (`https://kenkoooo.com/atcoder/proxy/...`) を経由しています。
 - サーバー処理は無く、すべてブラウザ上で完結する静的サイトです。

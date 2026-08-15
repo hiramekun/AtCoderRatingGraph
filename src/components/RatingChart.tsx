@@ -85,7 +85,7 @@ function ChartTooltip({
 function dotConfig(chartWidth: number, densestSeriesPoints: number, color: string) {
   const spacing = chartWidth > 0 && densestSeriesPoints > 1 ? chartWidth / densestSeriesPoints : 12;
   if (spacing < 2.5) return false as const;
-  const radius = Math.min(4, Math.max(1.5, spacing * 0.45));
+  const radius = Math.min(3.5, Math.max(1.5, spacing * 0.45));
   return { r: radius, fill: color, stroke: '#ffffff', strokeWidth: radius >= 3 ? 1.25 : 0.75 };
 }
 
@@ -118,6 +118,13 @@ export function RatingChart({ histories, range }: Props) {
     return ratingAxisDomain(Math.min(...ratings), Math.max(...ratings));
   }, [rows, histories]);
 
+  // 公式グラフに合わせ、目盛りはレート帯の境界（400 刻み）に置く。
+  const yTicks = useMemo(() => {
+    const ticks: number[] = [];
+    for (let value = yMin; value <= yMax; value += 400) ticks.push(value);
+    return ticks;
+  }, [yMin, yMax]);
+
   if (rows.length === 0) {
     return <p className="empty">選択した期間にコンテスト参加履歴がありません。</p>;
   }
@@ -132,11 +139,12 @@ export function RatingChart({ histories, range }: Props) {
               y1={Math.max(band.min, yMin)}
               y2={Math.min(band.max, yMax)}
               fill={band.color}
-              fillOpacity={0.8}
+              fillOpacity={1}
               ifOverflow="hidden"
             />
           ))}
-          <CartesianGrid strokeDasharray="3 3" stroke="rgba(0, 0, 0, 0.12)" />
+          {/* 罫線・軸は公式グラフに合わせて、淡いグレーの実線にする。 */}
+          <CartesianGrid stroke="#dadada" />
           <XAxis
             dataKey="date"
             type="number"
@@ -144,9 +152,17 @@ export function RatingChart({ histories, range }: Props) {
             domain={[range.from, range.to]}
             tickFormatter={formatYearMonth}
             minTickGap={40}
-            stroke="#555"
+            stroke="#333333"
+            tick={{ fill: '#333333', fontSize: 12 }}
           />
-          <YAxis domain={[yMin, yMax]} allowDataOverflow tickCount={9} width={56} stroke="#555" />
+          <YAxis
+            domain={[yMin, yMax]}
+            allowDataOverflow
+            ticks={yTicks}
+            width={56}
+            stroke="#333333"
+            tick={{ fill: '#333333', fontSize: 12 }}
+          />
           <Tooltip content={<ChartTooltip />} />
           <Legend verticalAlign="bottom" height={36} />
           {histories.map((history, index) => (
@@ -156,7 +172,7 @@ export function RatingChart({ histories, range }: Props) {
               dataKey={history.user}
               name={history.user}
               stroke={seriesColor(index)}
-              strokeWidth={2}
+              strokeWidth={1.75}
               legendType="plainline"
               // マーカーは線と同じ色で塗りつぶしつつ、点が密集しても粒が分かれて見えるよう白い縁を付ける。
               dot={dotConfig(chartWidth, densestSeriesPoints, seriesColor(index))}
